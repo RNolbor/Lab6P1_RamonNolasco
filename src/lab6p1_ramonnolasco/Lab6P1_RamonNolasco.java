@@ -44,25 +44,11 @@ public class Lab6P1_RamonNolasco {
                     
                     break;
                     
-                case 2: 
-                    
+                case 2:                    
                     char [][] tablero = new char [4][4];
-                    
-                    boolean juego = true;
-                    
-                    while(juego){
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                    }
-                    
-                    
+                    tablero = llenarTablero(tablero);
+                    char [][] solucion = generarTableroSolucion();                   
+                    Ejercicio2(tablero, solucion);       
                     break;
                     
                 case 3: 
@@ -80,6 +66,69 @@ public class Lab6P1_RamonNolasco {
     
     //METODOS EJERCICIO 2
     
+    public static void Ejercicio2(char[][] tablero, char[][] solucion){
+        Scanner input = new Scanner(System.in);
+        
+        //CONTAR N1S TOTALES Y POR FILA Y COLUMNA
+        int n1sTotales = 0; 
+        int [] n1sTotalesF = new int [4];
+        int [] n1sTotalesC = new int [4];
+        int [] n1sEncontradosF = new int [4];
+        int [] n1sEncontradosC = new int [4];
+        
+        for(int f = 0; f < 4; f++){
+            for (int c = 0; c < 4; c++){
+                if (solucion[f][c] == '1'){
+                    n1sTotales += 1;
+                    n1sTotalesF [f] += 1;
+                    n1sTotalesC [c] += 1;
+                }
+            }
+        }  
+        
+        //
+        //imprimirSolucion(solucion);
+        int n1sEncontradas = 0;
+        boolean juego = true;
+        
+        while (juego == true){
+            System.out.println("");
+            System.out.println("Ingrese una posicion: ");
+            String pos = input.next();
+            
+            int fila = pos.charAt(0) - '0';
+            int columna = pos.charAt(2) - '0';
+            
+            if (solucion[fila][columna] == '1'){
+                n1sEncontradas += 1;
+                tablero[fila][columna] = '1';
+                n1sEncontradosF[fila] += 1;
+                n1sEncontradosC[columna] += 1;
+                imprimirTablero(tablero, solucion, n1sTotalesF, n1sTotalesC, n1sEncontradosF, n1sEncontradosC);
+            }else{
+                tablero[fila][columna] = 'X';
+                imprimirTablero(tablero, solucion, n1sTotalesF, n1sTotalesC, n1sEncontradosF, n1sEncontradosC);
+                System.out.println("");
+                System.out.println("Encontro una bomba, ha perdido la partida");
+                juego = false;
+                break;
+            }
+            if (n1sEncontradas == n1sTotales){
+                imprimirTablero(tablero, solucion, n1sTotalesF, n1sTotalesC, n1sEncontradosF, n1sEncontradosC);
+                System.out.println("");
+                System.out.println("Ha ganado la partida!");
+                juego = false;
+                break;
+            }
+            
+            
+            
+        }
+        
+        
+
+    }
+
     public static char[][] generarTableroSolucion(){
         char [][] solucion = new char [4][4];
         int nA;
@@ -95,72 +144,46 @@ public class Lab6P1_RamonNolasco {
                 }
                 solucion [f][c] = lA;
             }
-        }
-        
+        }       
         return solucion;
     }
     
-    public static void imprimirTablero(char[][] tablero, char[][] solucion){
-        
-        int n1sF0 = 0;
-        int n1sF1 = 0;
-        int n1sF2 = 0;
-        int n1sF3 = 0;
-        
-        int n1sC0 = 0;
-        int n1sC1 = 0;
-        int n1sC2 = 0;
-        int n1sC3 = 0;
-        
-        int n1sF0E = 0;
-        int n1sF1E = 0;
-        int n1sF2E = 0;
-        int n1sF3E = 0;
-        
-        int n1sC0E = 0;
-        int n1sC1E = 0;
-        int n1sC2E = 0;
-        int n1sC3E = 0;
-        
-        int n1sTotales = contar1sTotales(solucion);
-        int n1sEncontrados = 0;
+    public static void imprimirTablero(char [][] tablero, char [][] solucion, int [] n1sTotalesF, int [] n1sTotalesC, int [] n1sEncontradosF, int [] n1sEncontradosC){
         
         System.out.println("");
         for (int f = 0; f < 4; f++){
             for(int c = 0; c < 4; c++){
                 System.out.print("[" + tablero [f][c] + "]");
                 if (c == 3){
-                    System.out.print(n1sEncontrados + "/");
+                    System.out.print(n1sEncontradosF [f] + "/" + n1sTotalesF[f]);
                 }
             }
             System.out.println("");
         }
-    }
-    
-    public static int contar1sTotales(char[][] solucion){
-        int n1sTotales = 0;
+        System.out.print(" " + n1sEncontradosC[0] + "  " + n1sEncontradosC[1] + "  " + n1sEncontradosC[2] + "  " + n1sEncontradosC[3]);
+        System.out.println("");
+        System.out.print(" " + n1sTotalesC[0] + "  " + n1sTotalesC[1] + "  " + n1sTotalesC[2] + "  " + n1sTotalesC[3]);
         
-        for(int f = 0; f < 4; f++){
-            for (int c = 0; c < 4; c++){
-                if (solucion[f][c] == '1'){
-                    n1sTotales += 1;
-                }
+    }   
+
+    public static char[][] llenarTablero(char [][] tablero){
+        
+        for (int f = 0; f < 4; f++){
+            for(int c = 0; c < 4; c++){
+                tablero[f][c] = ' ';
             }
-        }
-        
-        return n1sTotales;
+        }        
+        return tablero;
     }
     
-    public static void imprimir(char [][] tablero, char [][] solucion){
-        
-        for (int i = 0; i < 4; i++){
+    public static void imprimirSolucion(char[][] solucion){
+        for (int f = 0; f < 4; f++){
+            for(int c = 0; c < 4; c++){
+                System.out.print("[" + solucion[f][c] + "]");              
+            }
             System.out.println("");
-        }
-        
-        
+        }        
         
     }
-    
-    
     
 }
