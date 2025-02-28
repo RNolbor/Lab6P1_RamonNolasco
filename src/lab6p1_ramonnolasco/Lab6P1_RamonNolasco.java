@@ -19,7 +19,6 @@ public class Lab6P1_RamonNolasco {
     public static void main(String[] args) {
         // TODO code application logic here
         Scanner input = new Scanner(System.in);
-        Random rand = new Random();
         
         boolean menu = true;
         
@@ -41,6 +40,20 @@ public class Lab6P1_RamonNolasco {
             switch (opcion){
                 
                 case 1: 
+                    System.out.println("Ingrese el tamanio de la matriz: ");
+                    int tamaño = input.nextInt();
+                    int[][] matrizOriginal = crearMatrizCuadrada(tamaño);
+                    int[][] matrizTranspuesta = crearMatrizTranspuesta(matrizOriginal);
+                    int[][] matrizTranspuestaInversa = crearMatrizTranspuestaInversa(matrizOriginal);
+    
+                    System.out.println("Matriz Original: ");
+                    imprimirMatriz(matrizOriginal);
+    
+                    System.out.println("Matriz Transpuesta: ");
+                    imprimirMatriz(matrizTranspuesta);
+    
+                    System.out.println("Matriz Transpuesta Inversa: ");
+                    imprimirMatriz(matrizTranspuestaInversa);
                     
                     break;
                     
@@ -64,7 +77,66 @@ public class Lab6P1_RamonNolasco {
                    
     }
     
+    
+    
+    
+    //METODOS EJERCICIO 1
+    
+    
+    
+    
+    public static int[][] crearMatrizCuadrada(int tamaño){
+        Random rand = new Random();
+        int[][] matriz = new int[tamaño][tamaño];       
+        for (int f = 0; f < tamaño; f++){
+            for (int c = 0; c < tamaño; c++){
+                matriz[f][c] = rand.nextInt(10);
+            }
+        }
+        return matriz;
+    }
+    
+    public static void imprimirMatriz(int[][] matriz){
+        System.out.println("");
+        for (int f = 0; f < matriz.length; f++){
+            for (int c = 0; c < matriz.length; c++){
+                System.out.print("[" + matriz[f][c] + "]");
+            }
+            System.out.println("");
+        }              
+    }
+    
+    public static int[][] crearMatrizTranspuesta(int[][] matriz) {
+        int n = matriz.length;
+        int[][] transpuesta = new int[n][n];
+    
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                transpuesta[j][i] = matriz[i][j]; 
+            }
+        }
+        return transpuesta;
+    }
+    
+    public static int[][] crearMatrizTranspuestaInversa(int[][] matriz) {
+        int n = matriz.length;
+        int[][] transpuestaInversa = new int[n][n];
+    
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                transpuestaInversa[n - j - 1][n - i - 1] = matriz[i][j]; 
+            
+            }
+        }
+        return transpuestaInversa;
+    }
+    
+    
+    
     //METODOS EJERCICIO 2
+    
+    
+    
     
     public static void Ejercicio2(char[][] tablero, char[][] solucion){
         Scanner input = new Scanner(System.in);
@@ -186,4 +258,7 @@ public class Lab6P1_RamonNolasco {
         
     }
     
+    
+    
+    // METODOS EJERCICIO 3
 }
